@@ -119,9 +119,11 @@ export const JobModal = ({ job, isOpen, onClose }: JobModalProps) => {
 
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-border">
-            <Button variant="hero" className="flex-1" onClick={handleApply}>
-              <ExternalLink className="w-4 h-4 mr-2" />
-              Apply Now
+            <Button variant="hero" className="flex-1" asChild>
+              <a href={job.applyUrl} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="w-4 h-4 mr-2" />
+                Apply on LinkedIn
+              </a>
             </Button>
             <Button variant="outline" onClick={handleSave}>
               <Heart className="w-4 h-4 mr-2" />
