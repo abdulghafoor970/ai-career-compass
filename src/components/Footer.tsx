@@ -1,9 +1,8 @@
 import { Bot, Github, Linkedin, Twitter } from "lucide-react";
-import { forwardRef } from "react";
 
-export const Footer = forwardRef<HTMLElement>((_, ref) => {
+export const Footer = () => {
   return (
-    <footer ref={ref} className="bg-card border-t border-border py-12 mt-16">
+    <footer className="bg-card border-t border-border py-12 mt-16">
       <div className="container">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {/* Brand */}
@@ -70,6 +69,4 @@ export const Footer = forwardRef<HTMLElement>((_, ref) => {
       </div>
     </footer>
   );
-});
-
-Footer.displayName = "Footer";
+};

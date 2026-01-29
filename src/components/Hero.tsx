@@ -3,7 +3,6 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { locations } from "@/data/jobs";
-import { forwardRef } from "react";
 
 interface HeroProps {
   searchQuery: string;
@@ -13,13 +12,13 @@ interface HeroProps {
   onSearch: () => void;
 }
 
-export const Hero = forwardRef<HTMLElement, HeroProps>(({ 
+export const Hero = ({ 
   searchQuery, 
   onSearchChange, 
   selectedLocation, 
   onLocationChange,
   onSearch 
-}, ref) => {
+}: HeroProps) => {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       onSearch();
@@ -27,7 +26,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(({
   };
 
   return (
-    <section ref={ref} className="hero-gradient relative overflow-hidden py-20 lg:py-32">
+    <section className="hero-gradient relative overflow-hidden py-20 lg:py-32">
       {/* Background decorations */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/20 rounded-full blur-3xl animate-pulse-slow" />
@@ -120,6 +119,4 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(({
       </div>
     </section>
   );
-});
-
-Hero.displayName = "Hero";
+};
