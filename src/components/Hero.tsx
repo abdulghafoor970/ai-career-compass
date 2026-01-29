@@ -1,15 +1,33 @@
-import { Search, Sparkles, Zap, Users } from "lucide-react";
+import { Search, Sparkles, Zap, Users, MapPin } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { locations } from "@/data/jobs";
+import { forwardRef } from "react";
 
 interface HeroProps {
   searchQuery: string;
   onSearchChange: (value: string) => void;
+  selectedLocation: string;
+  onLocationChange: (value: string) => void;
+  onSearch: () => void;
 }
 
-export const Hero = ({ searchQuery, onSearchChange }: HeroProps) => {
+export const Hero = forwardRef<HTMLElement, HeroProps>(({ 
+  searchQuery, 
+  onSearchChange, 
+  selectedLocation, 
+  onLocationChange,
+  onSearch 
+}, ref) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      onSearch();
+    }
+  };
+
   return (
-    <section className="hero-gradient relative overflow-hidden py-20 lg:py-32">
+    <section ref={ref} className="hero-gradient relative overflow-hidden py-20 lg:py-32">
       {/* Background decorations */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/20 rounded-full blur-3xl animate-pulse-slow" />
@@ -49,10 +67,26 @@ export const Hero = ({ searchQuery, onSearchChange }: HeroProps) => {
                   placeholder="Search jobs, skills, or companies..."
                   value={searchQuery}
                   onChange={(e) => onSearchChange(e.target.value)}
+                  onKeyDown={handleKeyDown}
                   className="pl-12 h-12 bg-card border-0 text-foreground placeholder:text-muted-foreground focus-visible:ring-primary"
                 />
               </div>
-              <Button variant="hero" size="lg" className="h-12">
+              <div className="relative sm:w-48">
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground z-10 pointer-events-none" />
+                <Select value={selectedLocation} onValueChange={onLocationChange}>
+                  <SelectTrigger className="h-12 pl-10 bg-card border-0 focus:ring-primary">
+                    <SelectValue placeholder="Location" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-popover border-border">
+                    {locations.map((location) => (
+                      <SelectItem key={location} value={location}>
+                        {location}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button variant="hero" size="lg" className="h-12" onClick={onSearch}>
                 Search Jobs
               </Button>
             </div>
@@ -86,4 +120,6 @@ export const Hero = ({ searchQuery, onSearchChange }: HeroProps) => {
       </div>
     </section>
   );
-};
+});
+
+Hero.displayName = "Hero";

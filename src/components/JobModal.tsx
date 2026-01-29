@@ -4,6 +4,7 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { MapPin, Clock, Briefcase, DollarSign, Building2, ExternalLink, Heart, Share2 } from "lucide-react";
 import { toast } from "sonner";
+import { forwardRef } from "react";
 
 interface JobModalProps {
   job: Job | null;
@@ -11,7 +12,7 @@ interface JobModalProps {
   onClose: () => void;
 }
 
-export const JobModal = ({ job, isOpen, onClose }: JobModalProps) => {
+export const JobModal = forwardRef<HTMLDivElement, JobModalProps>(({ job, isOpen, onClose }, ref) => {
   if (!job) return null;
 
   const handleApply = () => {
@@ -136,4 +137,6 @@ export const JobModal = ({ job, isOpen, onClose }: JobModalProps) => {
       </DialogContent>
     </Dialog>
   );
-};
+});
+
+JobModal.displayName = "JobModal";

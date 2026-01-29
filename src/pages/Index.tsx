@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { JobCard } from "@/components/JobCard";
@@ -15,6 +15,7 @@ const Index = () => {
   const [selectedType, setSelectedType] = useState("All Types");
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const jobListingsRef = useRef<HTMLDivElement>(null);
 
   const filteredJobs = useMemo(() => {
     return jobs.filter((job) => {
@@ -56,10 +57,20 @@ const Index = () => {
     setSearchQuery("");
   };
 
+  const handleSearch = () => {
+    jobListingsRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <Hero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+      <Hero 
+        searchQuery={searchQuery} 
+        onSearchChange={setSearchQuery}
+        selectedLocation={selectedLocation}
+        onLocationChange={setSelectedLocation}
+        onSearch={handleSearch}
+      />
 
       <main className="container py-12">
         <div className="flex flex-col lg:flex-row gap-8">
@@ -79,7 +90,7 @@ const Index = () => {
           </aside>
 
           {/* Job listings */}
-          <div className="flex-1">
+          <div className="flex-1" ref={jobListingsRef}>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
                 <Briefcase className="w-5 h-5 text-primary" />
